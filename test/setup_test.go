@@ -342,6 +342,12 @@ func applyAndWaitForApplications(commitID string) {
 	}
 	Expect(appList).ShouldNot(HaveLen(0))
 
+	// TODO: remove this block after release the PR bellow
+	// https://github.com/cybozu-go/neco-apps/pull/957
+	if doUpgrade {
+		ExecSafeAt(boot0, "argocd", "app", "sync", "teleport", "--force")
+	}
+
 	By("waiting initialization")
 	checkAllAppsSynced := func() error {
 		for _, target := range appList {
