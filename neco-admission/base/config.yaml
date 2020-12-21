@@ -8,6 +8,10 @@ ArgoCDApplicationValidator:
         projects:
           - maneki
           - tenant-app-of-apps
+      - repository: https://github.com/masa213f/test-apps.git
+        projects:
+          - maneki
+          - tenant-app-of-apps
       - repository: https://github.com/cybozu-go/neco-apps.git
         projects:
           - default
