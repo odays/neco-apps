@@ -17,7 +17,6 @@ import (
 
 	argocd "github.com/argoproj/argo-cd/pkg/apis/application/v1alpha1"
 	"github.com/google/go-cmp/cmp"
-	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
@@ -181,7 +180,9 @@ func testApplicationResources(t *testing.T) {
 		"moco":                 "6",
 		"rook":                 "6",
 		"monitoring":           "7",
-		"registry":             "7",
+		"registry-elastic":     "7",
+		"registry-ghcr":        "7",
+		"registry-quay":        "7",
 		"sandbox":              "7",
 		"teleport":             "7",
 		"pvc-autoresizer":      "8",
@@ -399,6 +400,7 @@ func doCheckKustomizedYaml(t *testing.T, checkFunc func(*testing.T, []byte)) {
 	}
 }
 
+/*
 func readSecret(path string) ([]corev1.Secret, error) {
 	f, err := os.Open(path)
 	if err != nil {
@@ -516,6 +518,7 @@ func testGeneratedSecretName(t *testing.T) {
 		}
 	}
 }
+*/
 
 // These struct types are copied from the following link:
 // https://github.com/prometheus/prometheus/blob/master/pkg/rulefmt/rulefmt.go
@@ -813,7 +816,7 @@ func TestValidation(t *testing.T) {
 	t.Run("ApplicationTargetRevision", testApplicationResources)
 	t.Run("CRDStatus", testCRDStatus)
 	t.Run("CertificateUsages", testCertificateUsages)
-	t.Run("GeneratedSecretName", testGeneratedSecretName)
+	//t.Run("GeneratedSecretName", testGeneratedSecretName)
 	t.Run("AlertRules", testAlertRules)
 	t.Run("NamespaceLabels", testNamespaceResources)
 	t.Run("VictoriaMetricsCustomResources", testVMCustomResources)
