@@ -268,6 +268,10 @@ func testSetup() {
 		}
 		ExecSafeAt(boot0, "neco", "init-data", "--ignitions-only")
 	})
+
+	It("should fail", func() {
+		Expect(nil).To(HaveOccurred())
+	})
 }
 
 func applyAndWaitForApplications(commitID string) {
