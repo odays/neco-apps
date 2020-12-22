@@ -345,7 +345,12 @@ func applyAndWaitForApplications(commitID string) {
 	// TODO: remove this block after release the PR bellow
 	// https://github.com/cybozu-go/neco-apps/pull/957
 	if doUpgrade {
-		ExecSafeAt(boot0, "argocd", "app", "sync", "teleport", "--force")
+		// "sync --force" hangs somehow, so add "--timeout" and retry.
+		_, _, err := ExecAt(boot0, "argocd", "app", "sync", "teleport", "--force", "--timeout", "300")
+		if err != nil {
+			ExecSafeAt(boot0, "argocd", "app", "terminate-op", "teleport")
+			ExecSafeAt(boot0, "argocd", "app", "sync", "teleport", "--force")
+		}
 	}
 
 	By("waiting initialization")
